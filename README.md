@@ -9,6 +9,8 @@
     - [Relational Database](#relational-database)
     - [Non-Relational Database](#non-relational-database)
     - [How does database work?](#how-does-database-work)
+- [What is Django model?](#what-is-django-model)
+    - [Creating Django model](#creating-django-model)
 
 ### Preparation
 - Create project 
@@ -69,5 +71,49 @@
             Server->>Form: Send error message to User
         end
     ```
+
+[⬆️ Go to top](#context)
+
+### What is Django model?
+- A Django model is a built-in feature used by Django to create database tables 
+along with their fields, and additional constraints that need be included
+- Django models are essentially Python classes that represent database tables
+- Moreover, a Django model class is defined in a file called models.py. Each attribute 
+of the model class represents a field in the corresponding database table
+
+[⬆️ Go to top](#context)
+
+#### Creating Django model
+- In `models.py` create python class
+    ```py
+    from django.db import models
+
+    # Create your models here.
+    class Membership_model(models.Model):
+        name=models.CharField(max_length=500)
+        MEMBERSHIP_CHOICES=(
+            ('s','Standard'),
+            ('p','Premium'),
+            ('ux','Ultimate Deluxe'),
+        )
+        membership_plan=models.CharField(max_length=2,choices=MEMBERSHIP_CHOICES)
+        membership_active=models.BooleanField(default=True)
+        unique_code=models.CharField(max_length=250)
+    ```
+- Migrate Database
+    - `py manage.py makemigrations`
+    - `py manage.py migrate`
+
+- Register model in `admin.py`
+    ```py
+    from django.contrib import admin
+    from models import *
+
+    # Register your models here.
+    admin.site.register(Membership_model)
+    ```
+- Create superuser to view the model in Django Admin Panel
+    - `py manage.py createsuperuser`
+- Now login to Django admin to view the created model
 
 [⬆️ Go to top](#context)
