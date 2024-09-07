@@ -11,6 +11,7 @@
     - [How does database work?](#how-does-database-work)
 - [What is Django model?](#what-is-django-model)
     - [Creating Django model](#creating-django-model)
+    - [Different approaches to register model](#different-approaches-to-register-model)
 
 ### Preparation
 - Create project 
@@ -115,5 +116,29 @@ of the model class represents a field in the corresponding database table
 - Create superuser to view the model in Django Admin Panel
     - `py manage.py createsuperuser`
 - Now login to Django admin to view the created model
+
+[⬆️ Go to top](#context)
+
+#### Different approaches to register model
+- Creating a class to modify admin and register
+    ```py
+    from django.contrib import admin
+    from .models import *
+
+    # Register your models here.
+    class Membership_admin(admin.ModelAdmin):
+        pass
+    admin.site.register(Membership_model,Membership_admin)
+    ```
+- Using decorator
+    ```py
+    from django.contrib import admin
+    from .models import *
+
+    # Register your models here.
+    @admin.register(Membership_model)
+    class Membership_admin(admin.ModelAdmin):
+        pass
+    ```
 
 [⬆️ Go to top](#context)
