@@ -15,7 +15,9 @@ admin.site.site_title='Panel Practice'
 
 # @admin.register(Membership_model)
 class Membership_admin(admin.ModelAdmin):
-    exclude=('unique_code',)
+    list_display=['name','membership_plan','membership_active','unique_code']
+    
+    # exclude=('unique_code',)
     '''fields=(
         ('name','membership_plan'),
         'membership_active',

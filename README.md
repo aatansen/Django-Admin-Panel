@@ -20,6 +20,7 @@
     - [Configuring field display](#configuring-field-display)
     - [Customizing field layouts as Inline rows](#customizing-field-layouts-as-inline-rows)
     - [Excluding fields from forms](#excluding-fields-from-forms)
+    - [Customizing list display](#customizing-list-display)
 
 ### Preparation
 - Create project 
@@ -215,4 +216,14 @@ of the model class represents a field in the corresponding database table
     class Membership_admin(admin.ModelAdmin):
         exclude=('unique_code',)
     ```
+
+[⬆️ Go to top](#context)
+
+#### Customizing list display
+- Using `list_display` in admin class
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        list_display=['name','membership_plan','membership_active','unique_code']
+    ```
+
 [⬆️ Go to top](#context)
