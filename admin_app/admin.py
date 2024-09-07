@@ -7,6 +7,12 @@ admin.site.unregister(Group)
 # Register your models here.
 # admin.site.register(Membership_model)
 
+
+# Customizing admin titles
+admin.site.site_header="Admin Panel"
+admin.site.index_title='Admin'
+admin.site.site_title='Panel Practice'
+
 # @admin.register(Membership_model)
 class Membership_admin(admin.ModelAdmin):
     pass

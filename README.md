@@ -16,6 +16,7 @@
     - [Managing user and group visibility](#managing-user-and-group-visibility)
     - [Creating object](#creating-object)
     - [Viewing, Updating & Deleting object](#viewing-updating--deleting-object)
+    - [Customizing admin titles](#customizing-admin-titles)
 
 ### Preparation
 - Create project 
@@ -160,9 +161,22 @@ of the model class represents a field in the corresponding database table
 [⬆️ Go to top](#context)
 
 #### Creating object
-- By naviagting to admin panel we can add new object of our created model `Membership_model`
+- By navigating to admin panel we can add new object of our created model `Membership_model`
 
 #### Viewing, Updating & Deleting object
 - Opening the created object we can do these operation
 
+[⬆️ Go to top](#context)
+
+#### Customizing admin titles
+- By changing site header
+    ```py
+    # Customizing admin titles
+    admin.site.site_header="Admin Panel"
+    ```
+- To change website title page
+    ```py
+    admin.site.index_title='Admin'
+    admin.site.site_title='Panel Practice'
+    ```
 [⬆️ Go to top](#context)
