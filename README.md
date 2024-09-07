@@ -12,6 +12,10 @@
 - [What is Django model?](#what-is-django-model)
     - [Creating Django model](#creating-django-model)
     - [Different approaches to register model](#different-approaches-to-register-model)
+- [Django Admin Panel](#django-admin-panel)
+    - [Managing user and group visibility](#managing-user-and-group-visibility)
+    - [Creating object](#creating-object)
+    - [Viewing, Updating & Deleting object](#viewing-updating--deleting-object)
 
 ### Preparation
 - Create project 
@@ -140,5 +144,25 @@ of the model class represents a field in the corresponding database table
     class Membership_admin(admin.ModelAdmin):
         pass
     ```
+
+[⬆️ Go to top](#context)
+
+### Django Admin Panel
+#### Managing user and group visibility
+- We can unregister a model
+    ```py
+    from django.contrib.auth.models import User,Group
+
+    admin.site.unregister(User)
+    admin.site.unregister(Group)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Creating object
+- By naviagting to admin panel we can add new object of our created model `Membership_model`
+
+#### Viewing, Updating & Deleting object
+- Opening the created object we can do these operation
 
 [⬆️ Go to top](#context)
