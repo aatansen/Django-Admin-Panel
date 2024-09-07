@@ -17,6 +17,7 @@
     - [Creating object](#creating-object)
     - [Viewing, Updating & Deleting object](#viewing-updating--deleting-object)
     - [Customizing admin titles](#customizing-admin-titles)
+    - [Configuring field display](#configuring-field-display)
 
 ### Preparation
 - Create project 
@@ -179,4 +180,17 @@ of the model class represents a field in the corresponding database table
     admin.site.index_title='Admin'
     admin.site.site_title='Panel Practice'
     ```
+[⬆️ Go to top](#context)
+
+#### Configuring field display
+- In the class we can define fields 
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+    fields=(
+        'name',
+        'membership_plan',
+        'membership_active',
+    )
+    ```
+
 [⬆️ Go to top](#context)
