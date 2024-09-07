@@ -18,6 +18,7 @@
     - [Viewing, Updating & Deleting object](#viewing-updating--deleting-object)
     - [Customizing admin titles](#customizing-admin-titles)
     - [Configuring field display](#configuring-field-display)
+    - [Customizing field layouts as Inline rows](#customizing-field-layouts-as-inline-rows)
 
 ### Preparation
 - Create project 
@@ -191,6 +192,18 @@ of the model class represents a field in the corresponding database table
         'membership_plan',
         'membership_active',
     )
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Customizing field layouts as Inline rows
+- By adding field name in one tuple
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        fields=(
+            ('name','membership_plan'),
+            'membership_active',
+        )
     ```
 
 [⬆️ Go to top](#context)

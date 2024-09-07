@@ -16,8 +16,7 @@ admin.site.site_title='Panel Practice'
 # @admin.register(Membership_model)
 class Membership_admin(admin.ModelAdmin):
     fields=(
-        'name',
-        'membership_plan',
+        ('name','membership_plan'),
         'membership_active',
     )
 admin.site.register(Membership_model,Membership_admin)
