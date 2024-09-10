@@ -28,6 +28,7 @@
     - [Customizing model string representation](#customizing-model-string-representation)
     - [Setting meta options for admin models](#setting-meta-options-for-admin-models)
     - [Configuring default ordering](#configuring-default-ordering)
+    - [Implementing change list actions / Adding custom actions](#implementing-change-list-actions--adding-custom-actions)
 
 ### Preparation
 - Create project 
@@ -351,6 +352,25 @@ of the model class represents a field in the corresponding database table
         class Meta:
             verbose_name_plural='Gym Members'
             ordering=['name']
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Implementing change list actions / Adding custom actions
+- Adding `Class Meta` in model class `ordering`
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        search_fields=('name',)
+        list_display=['name','membership_plan','membership_active','unique_code']
+        list_filter=["membership_plan"]
+
+        # Custom action
+        actions=('set_membership_to_active',)
+        def set_membership_to_active(self,request,queryset):
+            queryset.update(membership_active=True)
+            self.message_user(request,'Membership activated successfully')
+        set_membership_to_active.short_description='Mark to set membership active'
+    admin.site.register(Membership_model,Membership_admin)
     ```
 
 [⬆️ Go to top](#context)
