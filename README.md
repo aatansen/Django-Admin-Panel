@@ -12,7 +12,7 @@
 - [What is Django model?](#what-is-django-model)
     - [Creating Django model](#creating-django-model)
     - [Different approaches to register model](#different-approaches-to-register-model)
-- [Django Admin Panel](#django-admin-panel)
+- [Django Admin Configuration](#django-admin-configuration)
     - [Managing user and group visibility](#managing-user-and-group-visibility)
     - [Creating object](#creating-object)
     - [Viewing, Updating & Deleting object](#viewing-updating--deleting-object)
@@ -29,6 +29,13 @@
     - [Setting meta options for admin models](#setting-meta-options-for-admin-models)
     - [Configuring default ordering](#configuring-default-ordering)
     - [Implementing change list actions / Adding custom actions](#implementing-change-list-actions--adding-custom-actions)
+- [Enhancing Django Admin Functionality](#enhancing-django-admin-functionality)
+    - [Configure a Django app](#configure-a-django-app)
+    - [Introduction to foreign keys & Model Creation](#introduction-to-foreign-keys--model-creation)
+    - [Integrating pre-populated fields](#integrating-pre-populated-fields)
+    - [Using Inline models for related data](#using-inline-models-for-related-data)
+    - [Custom Methods List Display](#custom-methods-list-display)
+
 
 ### Preparation
 - Create project 
@@ -160,7 +167,7 @@ of the model class represents a field in the corresponding database table
 
 [⬆️ Go to top](#context)
 
-### Django Admin Panel
+### Django Admin Configuration
 #### Managing user and group visibility
 - We can unregister a model
     ```py
@@ -371,6 +378,92 @@ of the model class represents a field in the corresponding database table
             self.message_user(request,'Membership activated successfully')
         set_membership_to_active.short_description='Mark to set membership active'
     admin.site.register(Membership_model,Membership_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+### Enhancing Django Admin Functionality
+#### Configure a Django app
+- Create an app `edu_app`
+    - `py manage.py startapp edu_app`
+- Add app in `INSTALLED_APPS`
+
+[⬆️ Go to top](#context)
+
+#### Introduction to foreign keys & Model Creation
+- A database schema with two tables: `Course_model` & `Lecture_model`
+    ```mermaid
+    erDiagram
+        Course_model {
+            course_title STRING
+            course_description TEXT
+            slug STRING
+        }
+        
+        Lecture_model {
+            lecture_name STRING
+            slug STRING
+            course INT FK "Foreign Key"
+        }
+        
+        Course_model ||--o{ Lecture_model : has
+    ```
+- Create two model `Course_model` & `Lecture_model` with those field in `edu_app`
+
+[⬆️ Go to top](#context)
+
+#### Integrating pre-populated fields
+- In `admin.py` we can re-populate fields using `prepopulated_fields`
+    ```py
+    class Course_admin(admin.ModelAdmin):
+        prepopulated_fields={
+            'slug':('course_title',)
+        }
+    admin.site.register(Course_model,Course_admin)
+
+    class Lecture_admin(admin.ModelAdmin):
+        prepopulated_fields={
+            'slug':('lecture_name',)
+        }
+    admin.site.register(Lecture_model,Lecture_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Using Inline models for related data
+- By using `StackedInline` or `TabularInline`
+    ```py
+    class Inline_lecture(admin.StackedInline):
+        model=Lecture_model
+        # extra=2
+        max_num=2
+
+    class Course_admin(admin.ModelAdmin):
+        inlines=[Inline_lecture]
+        prepopulated_fields={
+            'slug':('course_title',)
+        }
+    admin.site.register(Course_model,Course_admin)
+
+    class Lecture_admin(admin.ModelAdmin):
+        prepopulated_fields={
+            'slug':('lecture_name',)
+        }
+    admin.site.register(Lecture_model,Lecture_admin)
+    ```
+    - This will allow to add multiple lecture data while adding a perticular course
+
+[⬆️ Go to top](#context)
+
+#### Custom Methods List Display
+- Creating custom heading 
+    ```py
+    class Course_admin(admin.ModelAdmin):
+        list_display=['course_title','course_description','Course_heading']
+        
+        def Course_heading(self,obj):
+            return obj.course_title + " - " + obj.course_description
+    admin.site.register(Course_model,Course_admin)
     ```
 
 [⬆️ Go to top](#context)
