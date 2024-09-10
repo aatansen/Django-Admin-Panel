@@ -24,6 +24,7 @@
     - [Adding list view filters](#adding-list-view-filters)
     - [Implementing search functionality](#implementing-search-functionality)
     - [Making fields clickable in the list view](#making-fields-clickable-in-the-list-view)
+    - [Enabling Inline editing in the list view](#enabling-inline-editing-in-the-list-view)
 
 ### Preparation
 - Create project 
@@ -267,6 +268,19 @@ of the model class represents a field in the corresponding database table
         list_filter=["membership_plan"]
     admin.site.register(Membership_model,Membership_admin)
     list_display_links=['name','unique_code','membership_plan']
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Enabling Inline editing in the list view
+- Using `list_editable` in admin class
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        search_fields=('name',)
+        list_display=['name','membership_plan','membership_active','unique_code']
+        list_filter=["membership_plan"]
+    admin.site.register(Membership_model,Membership_admin)
+    list_editable=['membership_plan','unique_code']
     ```
 
 [⬆️ Go to top](#context)
