@@ -26,6 +26,7 @@
     - [Making fields clickable in the list view](#making-fields-clickable-in-the-list-view)
     - [Enabling Inline editing in the list view](#enabling-inline-editing-in-the-list-view)
     - [Customizing model string representation](#customizing-model-string-representation)
+    - [Setting meta options for admin models](#setting-meta-options-for-admin-models)
 
 ### Preparation
 - Create project 
@@ -302,6 +303,29 @@ of the model class represents a field in the corresponding database table
 
         def __str__(self):
             return self.name
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Setting meta options for admin models
+- Adding `Class Meta` in model class
+    ```py
+    class Membership_model(models.Model):
+        name=models.CharField(max_length=500)
+        MEMBERSHIP_CHOICES=(
+            ('s','Standard'),
+            ('p','Premium'),
+            ('ux','Ultimate Deluxe'),
+        )
+        membership_plan=models.CharField(max_length=2,choices=MEMBERSHIP_CHOICES)
+        membership_active=models.BooleanField(default=True)
+        unique_code=models.CharField(max_length=250)
+
+        def __str__(self):
+            return self.name
+        
+        class Meta:
+            verbose_name_plural='Gym Members'
     ```
 
 [⬆️ Go to top](#context)
