@@ -21,7 +21,8 @@
     - [Customizing field layouts as Inline rows](#customizing-field-layouts-as-inline-rows)
     - [Excluding fields from forms](#excluding-fields-from-forms)
     - [Customizing list display](#customizing-list-display)
-    - [Adding list view filters](#)
+    - [Adding list view filters](#adding-list-view-filters)
+    - [Implementing search functionality](#implementing-search-functionality)
 
 ### Preparation
 - Create project 
@@ -237,6 +238,18 @@ of the model class represents a field in the corresponding database table
 - Using `list_filter` in admin class
     ```py
     class Membership_admin(admin.ModelAdmin):
+        list_display=['name','membership_plan','membership_active','unique_code']
+        list_filter=["membership_plan"]
+    admin.site.register(Membership_model,Membership_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Implementing search functionality
+- Using `search_fields` in admin class
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        search_fields=('name',)
         list_display=['name','membership_plan','membership_active','unique_code']
         list_filter=["membership_plan"]
     admin.site.register(Membership_model,Membership_admin)
