@@ -11,3 +11,6 @@ class Membership_model(models.Model):
     membership_plan=models.CharField(max_length=2,choices=MEMBERSHIP_CHOICES)
     membership_active=models.BooleanField(default=True)
     unique_code=models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.name

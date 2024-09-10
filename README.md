@@ -25,6 +25,7 @@
     - [Implementing search functionality](#implementing-search-functionality)
     - [Making fields clickable in the list view](#making-fields-clickable-in-the-list-view)
     - [Enabling Inline editing in the list view](#enabling-inline-editing-in-the-list-view)
+    - [Customizing model string representation](#customizing-model-string-representation)
 
 ### Preparation
 - Create project 
@@ -281,6 +282,26 @@ of the model class represents a field in the corresponding database table
         list_filter=["membership_plan"]
     admin.site.register(Membership_model,Membership_admin)
     list_editable=['membership_plan','unique_code']
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Customizing model string representation
+- Adding `__str__` in model class
+    ```py
+    class Membership_model(models.Model):
+        name=models.CharField(max_length=500)
+        MEMBERSHIP_CHOICES=(
+            ('s','Standard'),
+            ('p','Premium'),
+            ('ux','Ultimate Deluxe'),
+        )
+        membership_plan=models.CharField(max_length=2,choices=MEMBERSHIP_CHOICES)
+        membership_active=models.BooleanField(default=True)
+        unique_code=models.CharField(max_length=250)
+
+        def __str__(self):
+            return self.name
     ```
 
 [⬆️ Go to top](#context)

@@ -15,14 +15,14 @@ admin.site.site_title='Panel Practice'
 
 # @admin.register(Membership_model)
 class Membership_admin(admin.ModelAdmin):
-    search_fields=('name',)
-    list_display=['name','membership_plan','membership_active','unique_code']
-    list_filter=["membership_plan"]
+    # search_fields=('name',)
+    # list_display=['name','membership_plan','membership_active','unique_code']
+    # list_filter=["membership_plan"]
     # exclude=('unique_code',)
     '''fields=(
         ('name','membership_plan'),
         'membership_active',
     )'''
     # list_display_links=['name','unique_code','membership_plan']
-    list_editable=['membership_plan','unique_code']
+    # list_editable=['membership_plan','unique_code']
 admin.site.register(Membership_model,Membership_admin)
