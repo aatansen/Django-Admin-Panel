@@ -21,6 +21,7 @@
     - [Customizing field layouts as Inline rows](#customizing-field-layouts-as-inline-rows)
     - [Excluding fields from forms](#excluding-fields-from-forms)
     - [Customizing list display](#customizing-list-display)
+    - [Adding list view filters](#)
 
 ### Preparation
 - Create project 
@@ -194,6 +195,7 @@ of the model class represents a field in the corresponding database table
         'membership_plan',
         'membership_active',
     )
+    admin.site.register(Membership_model,Membership_admin)
     ```
 
 [⬆️ Go to top](#context)
@@ -206,6 +208,7 @@ of the model class represents a field in the corresponding database table
             ('name','membership_plan'),
             'membership_active',
         )
+    admin.site.register(Membership_model,Membership_admin)
     ```
 
 [⬆️ Go to top](#context)
@@ -215,6 +218,7 @@ of the model class represents a field in the corresponding database table
     ```py
     class Membership_admin(admin.ModelAdmin):
         exclude=('unique_code',)
+    admin.site.register(Membership_model,Membership_admin)
     ```
 
 [⬆️ Go to top](#context)
@@ -224,6 +228,18 @@ of the model class represents a field in the corresponding database table
     ```py
     class Membership_admin(admin.ModelAdmin):
         list_display=['name','membership_plan','membership_active','unique_code']
+    admin.site.register(Membership_model,Membership_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Adding list view filters
+- Using `list_filter` in admin class
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        list_display=['name','membership_plan','membership_active','unique_code']
+        list_filter=["membership_plan"]
+    admin.site.register(Membership_model,Membership_admin)
     ```
 
 [⬆️ Go to top](#context)
