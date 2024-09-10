@@ -23,4 +23,5 @@ class Membership_admin(admin.ModelAdmin):
         ('name','membership_plan'),
         'membership_active',
     )'''
+    list_display_links=['name','unique_code','membership_plan']
 admin.site.register(Membership_model,Membership_admin)
