@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django_admin_env_notice',
-    'multi_captcha_admin',
+    'jazzmin',
+    # 'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

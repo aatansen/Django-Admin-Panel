@@ -46,6 +46,7 @@
 - [Third-party Tools](#third-party-tools)
     - [Adding CAPTCHA protection](#adding-captcha-protection)
     - [Distinguishing development environments](#distinguishing-development-environments)
+    - [Customizing admin with Jazzmin](#customizing-admin-with-jazzmin)
 
 ### Preparation
 - Create project 
@@ -694,5 +695,25 @@ of the model class represents a field in the corresponding database table
     ENVIRONMENT_FLOAT = True
     ENVIRONMENT_SHOW_TO_UNAUTHENTICATED = False
     ```
+
+[⬆️ Go to top](#context)
+
+#### Customizing admin with Jazzmin
+- Install [django-jazzmin](https://pypi.org/project/django-jazzmin/)
+    - `pip install django-jazzmin`
+- Read the [django-jazzmin-docs](https://django-jazzmin.readthedocs.io/)
+    - Add `jazzmin` to your `INSTALLED_APPS` before `django.contrib.admin`
+        ```py
+        INSTALLED_APPS = [
+            'django_admin_env_notice',
+            'jazzmin',
+            # 'multi_captcha_admin',
+            'django.contrib.admin',
+            [...]
+        ]
+        ```
+    - Now run the server to see the changes
+> [!WARNING]
+> `There is a length_is error in django version 5.1/5.1.1 while using jazzmin version 3.0.0. So i moved to django version 5.0`
 
 [⬆️ Go to top](#context)
