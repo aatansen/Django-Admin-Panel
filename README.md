@@ -43,6 +43,8 @@
     - [Code-based user permissions configuration](#code-based-user-permissions-configuration)
     - [Custom messages based on permissions](#custom-messages-based-on-permissions)
     - [Managing multiple admin sites](#managing-multiple-admin-sites)
+- [Third-party Tools](#third-party-tools)
+    - [Adding CAPTCHA protection](#adding-captcha-protection)
 
 ### Preparation
 - Create project 
@@ -608,5 +610,44 @@ of the model class represents a field in the corresponding database table
     edu_site.register(Course_model)
     edu_site.register(Lecture_model)
     ```
+
+[⬆️ Go to top](#context)
+
+### Third-party Tools
+#### Adding CAPTCHA protection
+- Install [django-multi-captcha-admin](https://pypi.org/project/django-multi-captcha-admin/)
+- Also install `pillow` as the captcha contain images
+- Add `multi_captcha_admin` to your `INSTALLED_APPS` setting before `django.contrib.admin` app
+    ```py
+    INSTALLED_APPS = [
+        'multi_captcha_admin',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'admin_app',
+        'edu_app',
+    ]
+    ```
+- Now there are `simple-captcha`,`recaptcha` & `recaptcha2`. We are going to implement `simple-captcha`
+- Go to [simple-captcha docs](https://django-simple-captcha.readthedocs.io/en/latest/) and follow the installation and setup
+    - Install `django-simple-captcha`
+        - `pip install  django-simple-captcha`
+    - Add `captcha` to the `INSTALLED_APPS` in `settings.py`
+    - Run `py manage.py migrate`
+- Add `captcha/` route in `urls.py`:
+    ```py
+    urlpatterns += [
+        path('captcha/', include('captcha.urls')),
+    ]
+    ```
+- Now to make sure it work correctly we have to remove `Admin_login_area` class where we modified `login.html` and delete `login.html` from `templates` directory
+    ```py
+    class Admin_login_area(admin.AdminSite):
+    login_template='admin/login.html'
+    ```
+- Now rerun the server to see the captcha
 
 [⬆️ Go to top](#context)

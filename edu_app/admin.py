@@ -9,9 +9,6 @@ edu_site=Edu_admin_site(name='edu_site')
 edu_site.register(Course_model)
 edu_site.register(Lecture_model)
 
-class Admin_login_area(admin.AdminSite):
-    login_template='admin/login.html'
-
 class Inline_lecture(admin.StackedInline):
     model=Lecture_model
     # extra=2
