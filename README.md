@@ -49,6 +49,7 @@
     - [Customizing admin with Jazzmin](#customizing-admin-with-jazzmin)
     - [Uploading and handling CSV files](#uploading-and-handling-csv-files)
     - [Integrating MFA for enhanced security](#integrating-mfa-for-enhanced-security)
+    - [Securing the Django admin](#securing-the-django-admin)
 
 ### Preparation
 - Create project 
@@ -820,5 +821,11 @@ of the model class represents a field in the corresponding database table
     ]
     ```
 - Now there will be OTP in admin site login
+
+[⬆️ Go to top](#context)
+
+#### Securing the Django admin
+- By changing url route of admin
+- Using third-party library like [django-advanced-password-validation](https://pypi.org/project/django-advanced-password-validation/)
 
 [⬆️ Go to top](#context)
