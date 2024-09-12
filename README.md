@@ -48,6 +48,7 @@
     - [Distinguishing development environments](#distinguishing-development-environments)
     - [Customizing admin with Jazzmin](#customizing-admin-with-jazzmin)
     - [Uploading and handling CSV files](#uploading-and-handling-csv-files)
+    - [Integrating MFA for enhanced security](#integrating-mfa-for-enhanced-security)
 
 ### Preparation
 - Create project 
@@ -765,4 +766,10 @@ of the model class represents a field in the corresponding database table
     - Now go to admin site and select data wizard file sources to upload the csv file
     - After uploading select `import via data wizard`
     - Now select model and data according to fields
+
+[⬆️ Go to top](#context)
+
+#### Integrating MFA for enhanced security
+- 
+
 [⬆️ Go to top](#context)
