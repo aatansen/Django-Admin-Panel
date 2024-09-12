@@ -45,6 +45,7 @@
     - [Managing multiple admin sites](#managing-multiple-admin-sites)
 - [Third-party Tools](#third-party-tools)
     - [Adding CAPTCHA protection](#adding-captcha-protection)
+    - [Distinguishing development environments](#distinguishing-development-environments)
 
 ### Preparation
 - Create project 
@@ -646,8 +647,52 @@ of the model class represents a field in the corresponding database table
 - Now to make sure it work correctly we have to remove `Admin_login_area` class where we modified `login.html` and delete `login.html` from `templates` directory
     ```py
     class Admin_login_area(admin.AdminSite):
-    login_template='admin/login.html'
+        login_template='admin/login.html'
     ```
 - Now rerun the server to see the captcha
+
+[⬆️ Go to top](#context)
+
+#### Distinguishing development environments
+- Install [django-admin-env-notice](https://pypi.org/project/django-admin-env-notice/)
+    - `pip install django-admin-env-notice`
+- Add `django_admin_env_notice` to `INSTALLED_APPS` before `django.contrib.admin`
+    ```py
+    INSTALLED_APPS = [
+        'django_admin_env_notice',
+        'multi_captcha_admin',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'admin_app',
+        'edu_app',
+        'captcha',
+    ]
+    ```
+- Add context processor
+    ```py
+    TEMPLATES = [
+        {
+            ...
+            'OPTIONS': {
+                "context_processors": [
+                    ...
+                    "django_admin_env_notice.context_processors.from_settings",
+                ],
+            },
+        },
+    ]
+    ```
+- Now Set label and color for current environment
+    ```py
+    # Env settings
+    ENVIRONMENT_NAME = "Development server"
+    ENVIRONMENT_COLOR = "#40E0D0"
+    ENVIRONMENT_FLOAT = True
+    ENVIRONMENT_SHOW_TO_UNAUTHENTICATED = False
+    ```
 
 [⬆️ Go to top](#context)

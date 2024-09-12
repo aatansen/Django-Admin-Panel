@@ -1,3 +1,4 @@
 django==5.1
 django-multi-captcha-admin==2.0.0
 pillow==10.4.0
+django-admin-env-notice==1.0

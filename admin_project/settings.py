@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-2#uv=_a42y$u3d8q1d$02&a6hmx_y*2gh#tad4+a0rz^96%8dt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_admin_env_notice',
     'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django_admin_env_notice.context_processors.from_settings",
             ],
         },
     },
@@ -135,3 +137,9 @@ STATICFILES_DIRS=[BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Env settings
+ENVIRONMENT_NAME = "Development server"
+ENVIRONMENT_COLOR = "#40E0D0"
+ENVIRONMENT_FLOAT = True
+ENVIRONMENT_SHOW_TO_UNAUTHENTICATED = False
