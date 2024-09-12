@@ -770,6 +770,55 @@ of the model class represents a field in the corresponding database table
 [⬆️ Go to top](#context)
 
 #### Integrating MFA for enhanced security
-- 
+- Create a new project `admin_mfa_project`
+    - `django-admin startproject admin_mfa_project`
+- Install [django-otp](https://pypi.org/project/django-otp/) & `qrcode`
+    - `pip install django-otp qrcode`
+- Add otp apps in `INSTALLED_APPS`
+    ```py
+    INSTALLED_APPS = [
+        ...
+        'django_otp',
+        'django_otp.plugins.otp_totp',
+    ]
+    ```
+- Run `py manage.py migrate`
+- Add `django_otp.middleware.OTPMiddleware` in `MIDDLEWARE`
+    ```py
+    MIDDLEWARE = [
+        ...
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django_otp.middleware.OTPMiddleware',
+        ...
+    ]
+    ```
+- Now in `urls.py` import and setup `OTP_admin`
+    ```py
+    from django.contrib.auth.models import User
+    from django_otp.admin import OTPAdminSite
+    from django_otp.plugins.otp_totp.models import TOTPDevice
+    from django_otp.plugins.otp_totp.admin import TOTPDeviceAdmin
+
+    class OTP_admin(OTPAdminSite):
+        pass
+    admin_site=OTP_admin(name='OTP_admin')
+    admin_site.register(User)
+    admin_site.register(TOTPDevice,TOTPDeviceAdmin)
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+    ]
+    ```
+- Now run server and go to admin page to add OTP to a user under `TOTP devices`
+- Set [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) if required (optional)
+    - `TIME_ZONE = 'Asia/Dhaka'`
+- Now `TOTP devices` there is qrcode option, click on it and scan it with google authenticator app
+- Modify the url in `urls.py`
+    ```py
+    urlpatterns = [
+        path('admin/', admin_site.urls),
+    ]
+    ```
+- Now there will be OTP in admin site login
 
 [⬆️ Go to top](#context)
