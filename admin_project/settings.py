@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'admin_app',
     'edu_app',
     'captcha',
+    'data_wizard',
+    'data_wizard.sources',
 ]
 
 

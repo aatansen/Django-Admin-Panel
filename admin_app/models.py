@@ -18,3 +18,8 @@ class Membership_model(models.Model):
     class Meta:
         verbose_name_plural='Gym Members'
         ordering=['name']
+        
+class Client_model(models.Model):
+    first_name=models.CharField(max_length=100)
+    last_name=models.CharField(max_length=100)
+    Job_title=models.CharField(max_length=100)

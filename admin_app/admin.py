@@ -1,9 +1,12 @@
+import data_wizard.registry
 from django.contrib import admin
 from django.http import HttpRequest
 from .models import *
 from django.contrib.auth.models import User,Group
 from django.contrib import messages
+import data_wizard
 
+data_wizard.register(Client_model)
 # admin.site.unregister(User)
 # admin.site.unregister(Group)
 
@@ -49,3 +52,4 @@ class Membership_admin(admin.ModelAdmin):
             ))
         return True
 admin.site.register(Membership_model,Membership_admin)
+admin.site.register(Client_model)

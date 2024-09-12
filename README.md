@@ -47,6 +47,7 @@
     - [Adding CAPTCHA protection](#adding-captcha-protection)
     - [Distinguishing development environments](#distinguishing-development-environments)
     - [Customizing admin with Jazzmin](#customizing-admin-with-jazzmin)
+    - [Uploading and handling CSV files](#uploading-and-handling-csv-files)
 
 ### Preparation
 - Create project 
@@ -716,4 +717,52 @@ of the model class represents a field in the corresponding database table
 > [!WARNING]
 > `There is a length_is error in django version 5.1/5.1.1 while using jazzmin version 3.0.0. So i moved to django version 5.0`
 
+[⬆️ Go to top](#context)
+
+#### Uploading and handling CSV files
+- The goal is to transform csv data to django model
+- First create a excel sheet csv to work with
+
+    | First Name | Last Name | Profession           |
+    |------------|-----------|----------------------|
+    | John       | Doe       | Architect            |
+    | Emily      | Carter    | Software Developer   |
+    | Sofia      | Martinez  | Clinical Psychologist|
+
+- Create a new model in `models.py`
+    ```py
+    class Client_model(models.Model):
+        first_name=models.CharField(max_length=100)
+        last_name=models.CharField(max_length=100)
+        Job_title=models.CharField(max_length=100)
+    ```
+- Now register it in `admin.py`
+    - `admin.site.register(Client_model)`
+- Read the [data-wizard-docs](https://django-data-wizard.wq.io/overview/setup#installation)
+    - Install [data-wizard](https://pypi.org/project/data-wizard/)
+        - `pip install data-wizard`
+    - Add in `INSTALLED_APPS`
+        ```py
+        INSTALLED_APPS = (
+        # ...
+        'data_wizard',
+        'data_wizard.sources',
+        )
+        ```
+    - Run `python manage.py migrate`
+    - Add url path
+        ```py
+        urlpatterns = [
+            # ...
+            path('datawizard/', include('data_wizard.urls')),
+        ]
+        ```
+    - Target model registration in `admin.py`
+        ```py
+        import data_wizard
+        data_wizard.register(Client_model)
+        ```
+    - Now go to admin site and select data wizard file sources to upload the csv file
+    - After uploading select `import via data wizard`
+    - Now select model and data according to fields
 [⬆️ Go to top](#context)
