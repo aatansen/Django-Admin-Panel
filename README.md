@@ -35,7 +35,14 @@
     - [Integrating pre-populated fields](#integrating-pre-populated-fields)
     - [Using Inline models for related data](#using-inline-models-for-related-data)
     - [Custom Methods List Display](#custom-methods-list-display)
-
+- [Comprehensive Admin Management](#comprehensive-admin-management)
+    - [Organizing admin forms with fieldsets](#organizing-admin-forms-with-fieldsets)
+    - [Alter the HTML structure of the login page](#alter-the-html-structure-of-the-login-page)
+    - [Enhancing admin with CSS overrides](#enhancing-admin-with-css-overrides)
+    - [Manual user permissions configuration](#manual-user-permissions-configuration)
+    - [Code-based user permissions configuration](#code-based-user-permissions-configuration)
+    - [Custom messages based on permissions](#custom-messages-based-on-permissions)
+    - [Managing multiple admin sites](#managing-multiple-admin-sites)
 
 ### Preparation
 - Create project 
@@ -464,6 +471,142 @@ of the model class represents a field in the corresponding database table
         def Course_heading(self,obj):
             return obj.course_title + " - " + obj.course_description
     admin.site.register(Course_model,Course_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+### Comprehensive Admin Management
+#### Organizing admin forms with fieldsets
+- Using `fieldsets`
+    ```py
+    class Lecture_admin(admin.ModelAdmin):
+        # fields=('lecture_name','course','slug')
+        fieldsets=(
+            ('Lecture:',{
+                'fields':('lecture_name','slug'),
+                'description':'lecture details',
+            }),
+            ('Course:',{
+                'fields':('course',),
+                'description':'Course linked',
+            }),
+        )
+        prepopulated_fields={
+            'slug':('lecture_name',)
+        }
+    admin.site.register(Lecture_model,Lecture_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Alter the HTML structure of the login page
+- Define `STATIC_ROOT` in `settings.py`
+    ```py
+    STATIC_ROOT=os.path.join(BASE_DIR,'static')
+    ```
+- Set static url in `urls.py`
+    ```py
+    from django.conf.urls.static import static
+    from django.conf import settings
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+    ]+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+    ```
+- Execute the `collectstatic` command
+    - `py manage.py collectstatic`
+- Set `TEMPLATES`'s `DIRS`
+    ```py
+    'DIRS': [os.path.join(BASE_DIR,'templates')],
+    ```
+- Now get the content of the admin login from django package
+    - `\env\Lib\site-packages\django\contrib\admin\templates\admin\login.html"`
+- Create `templates` directory with `admin` subdirectory and put `login.html` there
+- Now in `admin.py` create a class and define `login_template`
+    ```py
+    class Admin_login_area(admin.AdminSite):
+        login_template='admin/login.html'
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Enhancing admin with CSS overrides
+- Set `STATICFILES_DIRS` and comment out `STATIC_ROOT`
+    ```py
+    STATIC_URL = 'static/'
+    # STATIC_ROOT=os.path.join(BASE_DIR,'static')
+    STATICFILES_DIRS=[BASE_DIR / 'static']
+    ```
+- Now modify any css for example `login.css` which is in `static` directory after `collectstatic` command
+- Hard refresh in admin site to see the changes
+
+[⬆️ Go to top](#context)
+
+#### Manual user permissions configuration
+- Login to admin and create a new user with active & staff permissions
+- Now give permission to that user as necessary
+
+[⬆️ Go to top](#context)
+
+#### Code-based user permissions configuration
+- Go to `admin.py` and set permission
+    ```py
+    class Membership_admin(admin.ModelAdmin):
+        def has_add_permission(self, request):
+            return False
+        
+        def has_change_permission(self, request, obj=None):
+            return False
+        
+        def has_delete_permission(self, request, obj=None):
+            return False
+    admin.site.register(Membership_model,Membership_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Custom messages based on permissions
+- In `admin.py` model admin where methods are defined, we can add custom messages to show in admin site
+    ```py
+    from django.contrib import messages
+    class Membership_admin(admin.ModelAdmin):
+        def has_delete_permission(self, request, obj=None):
+            if obj!=None and request.POST.get('action')=='delete_selected':
+                messages.add_message(request,messages.ERROR,(
+                    "Are you sure you want to delete this?"
+                ))
+            return True
+    admin.site.register(Membership_model,Membership_admin)
+    ```
+
+[⬆️ Go to top](#context)
+
+#### Managing multiple admin sites
+- Create admin model class in `admin.py` and register model
+    ```py
+    class Edu_admin_site(admin.AdminSite):
+        site_header="Education Admin"
+    edu_site=Edu_admin_site()
+    edu_site.register(Course_model)
+    edu_site.register(Lecture_model)
+    ```
+- Set url in `urls.py`
+    ```py
+    from edu_app.admin import edu_site
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('edu-admin/', edu_site.urls),
+    ]+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+    ```
+> [!WARNING]
+> `?: (urls.W005) URL namespace 'admin' isn't unique. You may not be able to reverse all URLs in this namespace`
+
+- To solve this warning set `name` argument
+    ```py
+    class Edu_admin_site(admin.AdminSite):
+        site_header="Education Admin"
+    edu_site=Edu_admin_site(name='edu_site')
+    edu_site.register(Course_model)
+    edu_site.register(Lecture_model)
     ```
 
 [⬆️ Go to top](#context)

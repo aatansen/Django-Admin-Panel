@@ -1,9 +1,12 @@
 from django.contrib import admin
+from django.http import HttpRequest
 from .models import *
 from django.contrib.auth.models import User,Group
+from django.contrib import messages
 
-admin.site.unregister(User)
-admin.site.unregister(Group)
+# admin.site.unregister(User)
+# admin.site.unregister(Group)
+
 # Register your models here.
 # admin.site.register(Membership_model)
 
@@ -32,4 +35,17 @@ class Membership_admin(admin.ModelAdmin):
         queryset.update(membership_active=True)
         self.message_user(request,'Membership activated successfully')
     set_membership_to_active.short_description='Mark to set membership active'
+    
+    def has_add_permission(self, request):
+        return False
+    
+    def has_change_permission(self, request, obj=None):
+        return False
+    
+    def has_delete_permission(self, request, obj=None):
+        if obj!=None and request.POST.get('action')=='delete_selected':
+            messages.add_message(request,messages.ERROR,(
+                "Are you sure you want to delete this?"
+            ))
+        return True
 admin.site.register(Membership_model,Membership_admin)
