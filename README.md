@@ -7,6 +7,9 @@
 - [Context](#context)
   - [Preparation](#preparation)
   - [Django Admin](#django-admin)
+  - [Django shell](#django-shell)
+    - [Changing user's username](#changing-users-username)
+    - [Changing user's password](#changing-users-password)
   - [Database](#database)
     - [Relational Database](#relational-database)
     - [Non-Relational Database](#non-relational-database)
@@ -69,6 +72,37 @@
 - It is automatically generated and customizable which makes it easy to configure for different kinds of applications
 - It provides CRUD (Create, Read, Update, Delete) operations out of the box for database models
 - Security features are built-in, including user authentication and permissions management
+
+[⬆️ Go to Context](#context)
+
+### Django shell
+
+#### Changing user's username
+
+- Open the Django shell
+  - `python manage.py shell`
+- Import the user model
+  - `from django.contrib.auth import get_user_model`
+- Retrieve the user
+  - `User = get_user_model()`
+  - `user = User.objects.get(username='current_username')`
+- Update the username
+  - `user.username = 'new_username'`
+- Save the user
+  - `user.save()`
+- Confirm the username change
+  - `print(user.username)`
+
+[⬆️ Go to Context](#context)
+
+#### Changing user's password
+
+- After retrieve user step
+  - `user.set_password('new_password_here')`
+- Save the user
+  - `user.save()`
+- Confirm the password change
+  - `user.check_password('new_password_here')`
 
 [⬆️ Go to Context](#context)
 
